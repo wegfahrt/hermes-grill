@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/*
+ * Tailwind v4 CSS-first configuration.
+ * Customise colours, fonts, and spacing per client here.
+ * Docs: https://tailwindcss.com/docs/theme
+ */
+@theme {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Extend with client brand colours using --color-* */
+  /* Example:
+  --color-brand-500: #2563eb;
+  --color-brand-600: #1d4ed8;
+  */
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default focus ring, add accessible custom one */
+*:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

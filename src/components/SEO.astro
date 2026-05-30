@@ -1,0 +1,91 @@
+---
+import { siteConfig } from "../config/site";
+
+interface Props {
+  /** Page title — will be formatted as "title | siteName". */
+  title: string;
+  /** Meta description. Falls back to siteConfig.description. */
+  description?: string;
+  /** OG image path. Falls back to siteConfig.ogImage. */
+  ogImage?: string;
+  /** Canonical URL override. Defaults to current page URL. */
+  canonical?: string;
+  /** Set to true for the homepage to use just the site name as title. */
+  isHome?: boolean;
+  /** Additional JSON-LD schema objects to inject alongside the default. */
+  schema?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  ogImage = siteConfig.ogImage,
+  canonical,
+  isHome = false,
+  schema = [],
+} = Astro.props;
+
+const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
+const canonicalURL = canonical
+  ? new URL(canonical, siteConfig.url)
+  : new URL(Astro.url.pathname, siteConfig.url);
+const ogImageURL = new URL(ogImage, siteConfig.url).href;
+
+// Build default LocalBusiness JSON-LD if configured
+const defaultSchema: Record<string, unknown>[] = [];
+
+if (siteConfig.business) {
+  const b = siteConfig.business;
+  defaultSchema.push({
+    "@context": "https://schema.org",
+    "@type": b.type,
+    name: b.name,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: b.streetAddress,
+      addressLocality: b.city,
+      postalCode: b.postalCode,
+      addressCountry: b.country,
+    },
+    telephone: b.phone,
+    email: b.email,
+    openingHours: b.openingHours,
+    url: siteConfig.url,
+  });
+}
+
+// WebSite schema for sitelinks search box
+defaultSchema.push({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteConfig.name,
+  url: siteConfig.url,
+});
+
+const allSchemas = [...defaultSchema, ...schema];
+---
+
+{/* Primary meta */}
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL.href} />
+
+{/* Open Graph */}
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL.href} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:locale" content={siteConfig.lang} />
+<meta property="og:site_name" content={siteConfig.name} />
+
+{/* Twitter / X */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageURL} />
+
+{/* JSON-LD */}
+{allSchemas.map((s) => (
+  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}

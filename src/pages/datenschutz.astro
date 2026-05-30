@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../config/site";
+
+const b = siteConfig.business;
+---
+
+<BaseLayout title="Datenschutzerklärung">
+  <section class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+    <h1 class="text-3xl font-bold tracking-tight">Datenschutzerklärung</h1>
+
+    <div class="mt-8 space-y-6 text-neutral-600 [&_h2]:mt-8 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-neutral-900 [&_h3]:mt-4 [&_h3]:font-medium [&_h3]:text-neutral-800">
+      <h2>1. Datenschutz auf einen Blick</h2>
+
+      <h3>Allgemeine Hinweise</h3>
+      <p>
+        Die folgenden Hinweise geben einen einfachen Überblick darüber,
+        was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website
+        besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie
+        persönlich identifiziert werden können.
+      </p>
+
+      <h3>Datenerfassung auf dieser Website</h3>
+      <p>
+        Die Datenverarbeitung auf dieser Website erfolgt durch den
+        Websitebetreiber. Dessen Kontaktdaten können Sie dem Impressum
+        dieser Website entnehmen.
+      </p>
+
+      <h2>2. Hosting</h2>
+      <p>
+        Diese Website wird bei einem externen Dienstleister gehostet (Cloudflare).
+        Die personenbezogenen Daten, die auf dieser Website erfasst werden,
+        werden auf den Servern des Hosters gespeichert. Hierbei kann es sich
+        v.a. um IP-Adressen, Kontaktanfragen, Meta- und Kommunikationsdaten,
+        Vertragsdaten, Kontaktdaten, Namen, Websitezugriffe und sonstige Daten,
+        die über eine Website generiert werden, handeln.
+      </p>
+
+      {/* TODO: Expand with client-specific sections as needed:
+        - Contact form data processing
+        - Analytics (if used)
+        - Cookie policy
+        - Third-party services
+        - Data subject rights (Art. 15-21 DSGVO)
+      */}
+
+      <h2>3. Verantwortliche Stelle</h2>
+      {b && (
+        <div>
+          <p>{b.name}</p>
+          <p>{b.streetAddress}</p>
+          <p>{b.postalCode} {b.city}</p>
+          {b.email && <p>E-Mail: {b.email}</p>}
+        </div>
+      )}
+      <p class="mt-4 text-sm text-neutral-400">
+        Hinweis: Diese Datenschutzerklärung ist ein Platzhalter und muss
+        vor Veröffentlichung durch einen rechtskonformen Text ersetzt werden.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

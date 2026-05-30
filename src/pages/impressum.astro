@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../config/site";
+
+const b = siteConfig.business;
+---
+
+<BaseLayout title="Impressum">
+  <section class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+    <h1 class="text-3xl font-bold tracking-tight">Impressum</h1>
+
+    <div class="mt-8 space-y-6 text-neutral-600 [&_h2]:mt-8 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-neutral-900">
+      <h2>Angaben gemäß § 5 TMG</h2>
+      {b && (
+        <div>
+          <p>{b.name}</p>
+          <p>{b.streetAddress}</p>
+          <p>{b.postalCode} {b.city}</p>
+        </div>
+      )}
+
+      <h2>Kontakt</h2>
+      {b && (
+        <div>
+          {b.phone && <p>Telefon: {b.phone}</p>}
+          {b.email && <p>E-Mail: {b.email}</p>}
+        </div>
+      )}
+
+      {/* TODO: Add per client as needed */}
+      {/* <h2>Umsatzsteuer-ID</h2>
+      <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE XXX XXX XXX</p> */}
+
+      {/* <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+      <p>Vorname Nachname<br />Anschrift</p> */}
+
+      <h2>Haftungsausschluss</h2>
+      <p>
+        Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt.
+        Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
+        können wir jedoch keine Gewähr übernehmen.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
