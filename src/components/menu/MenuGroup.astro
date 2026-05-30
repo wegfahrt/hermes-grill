@@ -1,0 +1,28 @@
+---
+import MenuCategory from "./MenuCategory.astro";
+import Meander from "../Meander.astro";
+import { categoriesForGroup, type MenuGroup } from "../../data/menu";
+
+interface Props {
+  group: MenuGroup;
+}
+
+const { group } = Astro.props;
+const cats = categoriesForGroup(group);
+---
+
+<section id={group.id} class="mb-[76px] scroll-mt-[150px]">
+  <div class="mb-10 text-center">
+    <h2 class="font-heading text-[clamp(27px,3.6vw,38px)] text-brand-terracotta">
+      {group.title}
+    </h2>
+    <p class="mt-2 font-body text-[15.5px] italic text-brand-ink-soft">
+      {group.sub}
+    </p>
+    <Meander center class="mt-3.5" />
+  </div>
+
+  <div class="columns-1 [column-gap:64px] lg:columns-2">
+    {cats.map((category) => <MenuCategory category={category} />)}
+  </div>
+</section>

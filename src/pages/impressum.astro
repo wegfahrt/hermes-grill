@@ -1,44 +1,63 @@
 ---
+export const prerender = true;
+
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteConfig } from "../config/site";
 
-const b = siteConfig.business;
+const { name, owner, address, phone } = siteConfig;
 ---
 
 <BaseLayout title="Impressum">
-  <section class="mx-auto max-w-3xl px-6 py-16 md:py-24">
-    <h1 class="text-3xl font-bold tracking-tight">Impressum</h1>
+  <section class="mx-auto w-[min(760px,92vw)] py-16 sm:py-24">
+    <h1 class="font-heading text-[clamp(30px,5vw,44px)] text-brand-ink">
+      Impressum
+    </h1>
 
-    <div class="mt-8 space-y-6 text-neutral-600 [&_h2]:mt-8 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-neutral-900">
+    <div
+      class="mt-8 space-y-6 text-brand-ink-soft [&_h2]:mt-8 [&_h2]:font-heading [&_h2]:text-[22px] [&_h2]:text-brand-ink"
+    >
       <h2>Angaben gemäß § 5 TMG</h2>
-      {b && (
-        <div>
-          <p>{b.name}</p>
-          <p>{b.streetAddress}</p>
-          <p>{b.postalCode} {b.city}</p>
-        </div>
-      )}
+      <div>
+        <p>{name}</p>
+        <p>Inhaberin: {owner}</p>
+        <p>{address.street}</p>
+        <p>{address.city}</p>
+      </div>
 
       <h2>Kontakt</h2>
-      {b && (
-        <div>
-          {b.phone && <p>Telefon: {b.phone}</p>}
-          {b.email && <p>E-Mail: {b.email}</p>}
-        </div>
-      )}
-
-      {/* TODO: Add per client as needed */}
-      {/* <h2>Umsatzsteuer-ID</h2>
-      <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE XXX XXX XXX</p> */}
-
-      {/* <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
-      <p>Vorname Nachname<br />Anschrift</p> */}
-
-      <h2>Haftungsausschluss</h2>
       <p>
-        Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt.
-        Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
-        können wir jedoch keine Gewähr übernehmen.
+        Telefon: <a
+          href={phone.href}
+          class="text-brand-terracotta hover:underline">{phone.display}</a
+        >
+      </p>
+
+      <h2>Umsatzsteuer-Identifikationsnummer</h2>
+      <p class="text-brand-ink-soft/70">
+        {/* TODO: USt-IdNr. gemäß § 27a UStG vom Inhaber ergänzen, falls vorhanden. */}
+        Wird auf Anfrage mitgeteilt.
+      </p>
+
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>{owner}, {address.street}, {address.city}</p>
+
+      <h2>Haftung für Inhalte</h2>
+      <p>
+        Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die
+        Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch
+        keine Gewähr übernehmen.
+      </p>
+
+      <h2>Haftung für Links</h2>
+      <p>
+        Unser Angebot enthält Links zu externen Websites Dritter, auf deren
+        Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten
+        ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+      </p>
+
+      <p class="text-sm text-brand-ink-soft/60">
+        Hinweis: Dieses Impressum ist ein Entwurf und sollte vor der
+        Veröffentlichung rechtlich geprüft und ggf. ergänzt werden.
       </p>
     </div>
   </section>

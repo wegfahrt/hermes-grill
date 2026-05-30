@@ -1,0 +1,16 @@
+---
+import { additives } from "../../data/menu";
+---
+
+<div
+  class="mx-auto grid max-w-[900px] grid-cols-1 gap-x-[26px] gap-y-2.5 sm:grid-cols-2 lg:grid-cols-4"
+>
+  {
+    additives.map(([code, label]) => (
+      <span class="flex gap-2 text-[14px] text-brand-ink-soft">
+        <b class="min-w-[18px] font-semibold text-brand-terracotta">{code}</b>
+        {label}
+      </span>
+    ))
+  }
+</div>

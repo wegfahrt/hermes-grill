@@ -1,21 +1,25 @@
 ---
+export const prerender = true;
+
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
 ---
 
 <BaseLayout title="Seite nicht gefunden">
-  <section class="mx-auto flex max-w-6xl flex-col items-center justify-center px-6 py-32 text-center">
-    <p class="text-sm font-medium text-neutral-400">404</p>
-    <h1 class="mt-2 text-3xl font-bold tracking-tight">
+  <section
+    class="mx-auto flex w-[min(1180px,92vw)] flex-col items-center justify-center py-32 text-center"
+  >
+    <p
+      class="font-body font-medium uppercase tracking-[0.34em] text-[12.5px] text-brand-terracotta"
+    >
+      Fehler 404
+    </p>
+    <h1 class="mt-3 font-heading text-[clamp(32px,6vw,56px)] text-brand-ink">
       Seite nicht gefunden
     </h1>
-    <p class="mt-4 max-w-md text-neutral-500">
+    <p class="mt-4 max-w-md text-brand-ink-soft">
       Die angeforderte Seite existiert nicht oder wurde verschoben.
     </p>
-    <a
-      href="/"
-      class="mt-8 rounded-lg bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
-    >
-      Zur Startseite
-    </a>
+    <Button href="/" variant="solid" class="mt-8">Zur Startseite</Button>
   </section>
 </BaseLayout>

@@ -1,0 +1,69 @@
+---
+import Button from "./Button.astro";
+import { siteConfig } from "../config/site";
+
+const { map, address } = siteConfig;
+const mapTitle = `Standort Hermes Grill – ${address.street}, ${address.city}`;
+---
+
+<div
+  class="flex flex-col overflow-hidden rounded bg-brand-paper border border-brand-line shadow-[0_18px_40px_-28px_rgba(47,33,24,0.55)] min-h-0 lg:min-h-[460px]"
+>
+  <div id="mapHolder" class="relative flex-1 min-h-[320px] bg-brand-cream-deep">
+    <button
+      id="mapLoad"
+      type="button"
+      data-src={map.embedSrc}
+      data-title={mapTitle}
+      class="absolute inset-0 flex w-full cursor-pointer flex-col items-center justify-center gap-3 px-6 text-center transition-colors hover:bg-brand-cream"
+    >
+      <span class="text-3xl text-brand-terracotta" aria-hidden="true">⌖</span>
+      <span class="font-heading text-xl text-brand-ink">Karte laden</span>
+      <span class="max-w-[38ch] text-sm text-brand-ink-soft">
+        Beim Laden der Karte werden Daten an Google Maps übertragen. Klicken Sie,
+        um die interaktive Karte anzuzeigen.
+      </span>
+    </button>
+  </div>
+
+  <div
+    class="flex flex-wrap items-center gap-4 border-t border-brand-line px-6 py-5 sm:px-8"
+  >
+    <span class="text-2xl leading-none text-brand-terracotta" aria-hidden="true"
+      >⌖</span
+    >
+    <div class="mr-auto">
+      <h3 class="font-heading text-xl text-brand-ink">So finden Sie uns</h3>
+      <address class="not-italic text-brand-ink-soft">
+        {address.street} · {address.city}
+      </address>
+    </div>
+    <Button
+      href={map.directionsUrl}
+      variant="outline"
+      target="_blank"
+      rel="noopener"
+    >
+      Route planen
+    </Button>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById("mapLoad") as HTMLButtonElement | null;
+  btn?.addEventListener("click", () => {
+    const holder = document.getElementById("mapHolder");
+    const src = btn.dataset.src;
+    if (!holder || !src) return;
+
+    const iframe = document.createElement("iframe");
+    iframe.src = src;
+    iframe.title = btn.dataset.title ?? "Karte";
+    iframe.loading = "lazy";
+    iframe.referrerPolicy = "no-referrer-when-downgrade";
+    iframe.allowFullscreen = true;
+    iframe.className = "absolute inset-0 w-full h-full border-0";
+
+    holder.replaceChildren(iframe);
+  });
+</script>

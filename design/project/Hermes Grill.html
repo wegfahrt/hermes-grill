@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hermes Grill — Griechische Spezialitäten in Mannheim</title>
+<link rel="stylesheet" href="hermes.css" />
+<style>
+/* ===== Landing-specific ===== */
+.hero {
+  position: relative; min-height: min(90vh, 800px);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  color: #fbf3e6; overflow: hidden;
+}
+.hero-bg { position: absolute; inset: 0; background: url("assets/innenbereich.jpg") center/cover no-repeat; transform: scale(1.04); }
+.hero-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 100% at 50% 30%, rgba(47,33,24,.30), rgba(30,20,13,.72) 78%),
+    linear-gradient(to bottom, rgba(30,20,13,.55), rgba(30,20,13,.28) 40%, rgba(30,20,13,.78));
+}
+.hero-inner { position: relative; z-index: 2; padding: 40px 20px; max-width: 880px; }
+.hero-seal {
+  display: inline-block; font-family: var(--body); font-weight: 500;
+  letter-spacing: .32em; text-transform: uppercase; font-size: 12.5px; color: var(--amber-l);
+  border: 1px solid rgba(217,168,90,.5); border-radius: 2px; padding: 8px 20px;
+}
+.hero h1 {
+  font-size: clamp(48px, 9vw, 104px); letter-spacing: .04em; margin: 26px 0 0;
+  color: #fbf3e6; text-shadow: 0 2px 30px rgba(0,0,0,.45);
+}
+.hero-tag { font-family: var(--body); font-style: italic; font-size: clamp(19px, 2.6vw, 26px); color: #f0dfc8; margin: 12px 0 0; }
+.hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 38px; }
+.hero-scroll { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 2; color: rgba(251,243,230,.7); font-size: 22px; animation: bob 2.4s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translate(-50%,0); } 50% { transform: translate(-50%,8px); } }
+
+/* info ribbon */
+.ribbon { background: var(--terracotta); color: #fbeede; }
+.ribbon .wrap { display: flex; align-items: center; justify-content: center; gap: 30px 46px; flex-wrap: wrap; padding: 17px 0; font-size: 15px; letter-spacing: .02em; }
+.ribbon b { font-weight: 600; }
+.ribbon .dot { opacity: .5; }
+
+/* welcome */
+.welcome { background: var(--cream); }
+.welcome-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center; }
+.welcome-text .sec-title { text-align: left; font-size: clamp(30px, 4vw, 44px); margin: 14px 0 22px; }
+.welcome-text p { color: var(--ink-soft); margin: 0 0 18px; }
+.signature { font-family: var(--script); font-size: 38px; color: var(--terracotta); line-height: 1; margin-top: 8px; }
+.signature + .sig-name { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; }
+.welcome-photo { position: relative; }
+.welcome-photo img { width: 100%; height: 560px; object-fit: cover; border-radius: 3px; box-shadow: var(--shadow); }
+.welcome-photo .frame { position: absolute; inset: 16px -16px -16px 16px; border: 1.5px solid var(--stone); border-radius: 3px; z-index: -1; }
+
+/* grill feature */
+.grill { background: var(--walnut); color: #f1e3cf; position: relative; }
+.grill .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 60px; align-items: center; }
+.grill-photo img { width: 100%; height: 600px; object-fit: cover; border-radius: 3px; box-shadow: 0 24px 60px -28px rgba(0,0,0,.7); }
+.grill-text .sec-title { text-align: left; }
+.grill-text .lead { color: #cdb89c; margin: 18px 0 26px; }
+.grill-list { list-style: none; padding: 0; margin: 0 0 32px; }
+.grill-list li { display: flex; align-items: baseline; gap: 14px; padding: 15px 0; border-bottom: 1px solid rgba(217,168,90,.22); }
+.grill-list .gl-name { font-family: var(--display); font-size: 21px; color: #f6ead7; }
+.grill-list .gl-desc { display: block; font-size: 14.5px; color: #b8a589; font-family: var(--body); margin-top: 3px; letter-spacing: .01em; }
+.grill-list .gl-dots { flex: 1; border-bottom: 1px dotted rgba(217,168,90,.4); transform: translateY(-5px); }
+.grill-list .gl-price { font-family: var(--display); font-size: 20px; color: var(--amber-l); white-space: nowrap; }
+
+/* gallery */
+.gallery { background: var(--cream-deep); }
+.gal-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 16px; }
+.gal-item { position: relative; overflow: hidden; border-radius: 3px; }
+.gal-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s ease; }
+.gal-item:hover img { transform: scale(1.06); }
+.gal-item figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 18px 14px; margin: 0;
+  font-family: var(--body); font-style: italic; font-size: 15px; color: #fbf3e6;
+  background: linear-gradient(transparent, rgba(30,20,13,.78));
+}
+.gal-wide { grid-column: span 2; } .gal-tall { grid-row: span 2; }
+
+/* feste */
+.feste { position: relative; color: #fbf3e6; overflow: hidden; }
+.feste-bg { position: absolute; inset: 0; background: url("assets/nebenzimmer.jpg") center 28%/cover no-repeat; }
+.feste-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(40,26,16,.92) 28%, rgba(40,26,16,.55) 62%, rgba(40,26,16,.3)); }
+.feste .wrap { position: relative; z-index: 2; padding: 104px 0; }
+.feste-card { max-width: 540px; }
+.feste-card .sec-title { text-align: left; color: #fbf3e6; }
+.feste-card p { color: #ecdcc6; font-size: 19px; margin: 20px 0 30px; }
+
+/* besuch / info */
+.besuch { background: var(--cream); }
+.info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.info-split { display: grid; grid-template-columns: .82fr 1.18fr; gap: 30px; align-items: stretch; }
+.info-col-left { display: flex; flex-direction: column; gap: 30px; }
+.info-col-left .info-card { flex: 1; }
+.map-card { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; box-shadow: 0 18px 40px -28px rgba(47,33,24,.55); min-height: 460px; }
+.map-embed { position: relative; flex: 1 1 auto; min-height: 300px; background: var(--cream-deep); }
+.map-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.map-info { display: flex; align-items: center; gap: 18px; padding: 22px 30px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.map-info .ic { color: var(--terracotta); font-size: 24px; line-height: 1; }
+.map-info-text { margin-right: auto; }
+.map-info-text h3 { font-size: 22px; margin: 0 0 2px; }
+.map-info-text address { font-style: normal; color: var(--ink-soft); font-size: 16px; }
+.info-card { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 38px 34px; box-shadow: 0 14px 30px -26px rgba(47,33,24,.5); }
+.info-card .ic { color: var(--terracotta); font-size: 22px; }
+.info-card h3 { font-size: 25px; margin: 14px 0 18px; }
+.hours-row { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px dotted var(--line); font-size: 16px; }
+.hours-row span:first-child { color: var(--ink-soft); }
+.hours-row.rest span { color: var(--terracotta); font-weight: 500; }
+.info-card address { font-style: normal; color: var(--ink-soft); font-size: 16.5px; line-height: 1.7; }
+.info-card .big-phone { font-family: var(--display); font-size: 28px; color: var(--ink); margin: 6px 0 16px; }
+.info-card .muted { color: var(--ink-soft); font-size: 15px; }
+.info-card .btn { margin-top: 18px; }
+
+@media (max-width: 940px) {
+  .welcome-grid, .grill .wrap { grid-template-columns: 1fr; gap: 40px; }
+  .grill-photo { order: -1; }
+  .welcome-photo img, .grill-photo img { height: 420px; }
+  .info-grid { grid-template-columns: 1fr; }
+  .info-split { grid-template-columns: 1fr; }
+  .map-card { min-height: 0; }
+  .map-embed { min-height: 320px; }
+  .gal-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+}
+@media (max-width: 540px) {
+  .gal-grid { grid-template-columns: 1fr; }
+  .gal-wide, .gal-tall { grid-column: auto; grid-row: auto; }
+  .feste .wrap { padding: 70px 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="Hermes Grill.html"><b>HERMES GRILL</b><small>Griechische Spezialitäten</small></a>
+    <nav class="nav" id="nav">
+      <a href="Hermes Grill.html" class="active">Startseite</a>
+      <a href="Speisekarte.html">Speisekarte</a>
+      <a href="#feste">Feiern</a>
+      <a href="#besuch">Kontakt</a>
+    </nav>
+    <a class="head-phone" href="tel:0621734442">☎ 0621 / 734442</a>
+    <button class="nav-toggle" id="navToggle">Menü</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <span class="hero-seal">Ταβέρνα · Mannheim</span>
+    <h1>Hermes Grill</h1>
+    <p class="hero-tag">Griechische Spezialitäten in gemütlicher Atmosphäre</p>
+    <div class="hero-cta">
+      <a class="btn btn-solid" href="Speisekarte.html">Zur Speisekarte</a>
+      <a class="btn btn-ghost" href="tel:0621734442">Tisch reservieren</a>
+    </div>
+  </div>
+  <a class="hero-scroll" href="#welcome" aria-label="Weiter">▾</a>
+</section>
+
+<!-- INFO RIBBON -->
+<div class="ribbon">
+  <div class="wrap">
+    <span><b>Mittwoch – Sonntag</b> · 11:30–14:00 &amp; 17:00–23:00</span>
+    <span class="dot">●</span>
+    <span><b>Montag &amp; Dienstag</b> Ruhetag</span>
+    <span class="dot">●</span>
+    <span>Reservierung: <b>0621 / 734442</b></span>
+  </div>
+</div>
+
+<!-- WELCOME -->
+<section class="sec welcome" id="welcome">
+  <div class="wrap welcome-grid">
+    <div class="welcome-text reveal">
+      <span class="eyebrow">Καλώς ορίσατε</span>
+      <h2 class="sec-title">Herzlich willkommen<br>bei Hermes</h2>
+      <p>Wenn Sie griechische Spezialitäten in gemütlicher Atmosphäre genießen möchten, sind Sie bei uns genau richtig. Bei uns erwartet Sie beste Qualität, eine entspannte Atmosphäre und freundliches Personal.</p>
+      <p>Vom Drehspieß über zartes Weidelamm bis zu frischem Fisch und Meze – wir kochen mit Herz und nach echten griechischen Rezepten.</p>
+      <div class="meander"></div>
+      <p class="signature">Familie Milona</p>
+      <p class="sig-name">Vasiliki Milona · Inhaberin</p>
+    </div>
+    <div class="welcome-photo reveal">
+      <img src="assets/vorspeisenteller.jpg" alt="Gemischter griechischer Vorspeisenteller mit Meze" />
+      <div class="frame"></div>
+    </div>
+  </div>
+</section>
+
+<!-- GRILL FEATURE -->
+<section class="sec grill">
+  <div class="wrap">
+    <div class="grill-photo reveal">
+      <img src="assets/grillteller.jpg" alt="Lammkoteletts und Spieß vom Grill" />
+    </div>
+    <div class="grill-text reveal">
+      <span class="eyebrow on-dark">Vom Holzkohlegrill</span>
+      <h2 class="sec-title on-dark">Spezialitäten<br>vom Grill</h2>
+      <p class="lead">Nur neuseeländisches Weidelamm und frisches Angus-Rinderfilet – serviert mit griechischen Ofenkartoffeln, grünen Bohnen und marktfrischem Salat.</p>
+      <ul class="grill-list">
+        <li>
+          <span><span class="gl-name">Lammkoteletts</span><span class="gl-desc">Zarte Lammkrone, mit Beilagen &amp; Salat</span></span>
+          <span class="gl-dots"></span><span class="gl-price">32,50 €</span>
+        </li>
+        <li>
+          <span><span class="gl-name">Lammfilet am Spieß</span><span class="gl-desc">Saftiges Filet vom Spieß, mit Beilagen</span></span>
+          <span class="gl-dots"></span><span class="gl-price">32,50 €</span>
+        </li>
+        <li>
+          <span><span class="gl-name">Gyros vom Drehspieß</span><span class="gl-desc">Mit Tomaten, Zwiebeln &amp; Tsatsiki</span></span>
+          <span class="gl-dots"></span><span class="gl-price">17,50 €</span>
+        </li>
+        <li>
+          <span><span class="gl-name">Bauern Platte</span><span class="gl-desc">Spieß, Steak, Lammkotelett, Suzukakia &amp; Feta</span></span>
+          <span class="gl-dots"></span><span class="gl-price">23,50 €</span>
+        </li>
+      </ul>
+      <a class="btn btn-outline" href="Speisekarte.html" style="border-color:var(--amber-l);color:var(--amber-l)">Ganze Speisekarte ansehen</a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="sec gallery">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Atmosphäre</span>
+      <h2 class="sec-title">Bei uns zu Gast</h2>
+      <div class="meander center"></div>
+    </div>
+    <div class="gal-grid reveal">
+      <figure class="gal-item gal-wide gal-tall">
+        <img src="assets/innenbereich.jpg" alt="Gemütlicher Gastraum mit Natursteinwand" />
+        <figcaption>Unser Gastraum mit Natursteinwand &amp; Kerzenlicht</figcaption>
+      </figure>
+      <figure class="gal-item gal-wide">
+        <img src="assets/aussenbereich.jpg" alt="Begrünte Terrasse mit Olivenbäumen" />
+        <figcaption>Sommerterrasse unter Olivenbäumen</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="assets/vorspeisenteller.jpg" alt="Gemischter Vorspeisenteller" />
+        <figcaption>Meze-Vorspeisen</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="assets/nebenzimmer.jpg" alt="Festlich gedecktes Nebenzimmer" />
+        <figcaption>Nebenzimmer für Feste</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- FESTE -->
+<section class="feste" id="feste">
+  <div class="feste-bg"></div>
+  <div class="wrap">
+    <div class="feste-card reveal">
+      <span class="eyebrow on-dark">Feiern &amp; Festlichkeiten</span>
+      <h2 class="sec-title">Ihr Fest bei Hermes</h2>
+      <p>Für größere oder kleinere Festlichkeiten bieten wir Ihnen ein schönes Nebenzimmer sowie den separaten Anbau – ganz für Sie und Ihre Gäste. Sprechen Sie uns einfach an, wir planen Ihre Feier gemeinsam.</p>
+      <a class="btn btn-solid" href="tel:0621734442">Anfragen unter 0621 / 734442</a>
+    </div>
+  </div>
+</section>
+
+<!-- BESUCH / INFO -->
+<section class="sec besuch" id="besuch">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Besuchen Sie uns</span>
+      <h2 class="sec-title">Öffnungszeiten &amp; Kontakt</h2>
+      <div class="meander center"></div>
+    </div>
+    <div class="info-split">
+      <div class="info-col-left">
+        <div class="info-card reveal">
+          <span class="ic">◷</span>
+          <h3>Öffnungszeiten</h3>
+          <div class="hours-row"><span>Mittwoch – Sonntag</span><span>11:30 – 14:00</span></div>
+          <div class="hours-row"><span></span><span>17:00 – 23:00</span></div>
+          <div class="hours-row"><span>Warme Küche</span><span>bis 22:00</span></div>
+          <div class="hours-row rest"><span>Montag &amp; Dienstag</span><span>Ruhetag</span></div>
+        </div>
+        <div class="info-card reveal">
+          <span class="ic">☎</span>
+          <h3>Reservierung</h3>
+          <p class="big-phone">0621 / 734442</p>
+          <p class="muted">Wir empfehlen eine Reservierung – besonders am Wochenende.</p>
+          <a class="btn btn-solid" href="tel:0621734442">Jetzt anrufen</a>
+        </div>
+      </div>
+      <div class="map-card reveal">
+        <div class="map-embed">
+          <iframe
+            title="Standort Hermes Grill – Mannheimer Straße 42, 68309 Mannheim"
+            src="https://maps.google.com/maps?q=Mannheimer%20Stra%C3%9Fe%2042%2C%2068309%20Mannheim&z=16&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <div class="map-info">
+          <span class="ic">⌖</span>
+          <div class="map-info-text">
+            <h3 data-comment-anchor="37527a7328-h3">So finden Sie uns</h3>
+            <address>Mannheimer Straße 42 · 68309 Mannheim</address>
+          </div>
+          <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=Hermes+Grill+Mannheimer+Stra%C3%9Fe+42+68309+Mannheim" target="_blank" rel="noopener">Route planen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>HERMES GRILL</b>
+        <div class="meander amber"></div>
+        <p>Griechische Spezialitäten in gemütlicher Atmosphäre – mitten in Mannheim.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Adresse</h4>
+        <p>Mannheimer Straße 42<br>68309 Mannheim</p>
+        <a href="tel:0621734442">0621 / 734442</a>
+      </div>
+      <div class="foot-col">
+        <h4>Öffnungszeiten</h4>
+        <div class="foot-row"><span>Mi – So</span><span>11:30 – 23:00</span></div>
+        <div class="foot-row"><span>Warme Küche</span><span>bis 22:00</span></div>
+        <div class="foot-row"><span>Mo &amp; Di</span><span>Ruhetag</span></div>
+      </div>
+      <div class="foot-col">
+        <h4>Entdecken</h4>
+        <a href="Hermes Grill.html">Startseite</a>
+        <a href="Speisekarte.html">Speisekarte</a>
+        <a href="#feste">Feiern &amp; Feste</a>
+        <a href="#besuch">Kontakt</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yr"></span> Hermes Grill · Inhaberin Vasiliki Milona</span>
+      <span>Mannheimer Straße 42 · 68309 Mannheim</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile nav
+  const nav = document.getElementById('nav');
+  document.getElementById('navToggle').addEventListener('click', () => nav.classList.toggle('open'));
+  nav.addEventListener('click', e => { if (e.target.tagName === 'A') nav.classList.remove('open'); });
+  // year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.16 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

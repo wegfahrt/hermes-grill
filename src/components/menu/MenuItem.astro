@@ -1,0 +1,29 @@
+---
+import type { MenuItem } from "../../data/menu";
+
+interface Props {
+  item: MenuItem;
+}
+
+const { item } = Astro.props;
+---
+
+<div class="mb-[13px] flex items-baseline gap-[9px] leading-[1.4]">
+  <span class="min-w-[26px] text-[12px] tabular-nums text-brand-stone"
+    >{item.no}</span
+  >
+  <span class="text-[16px] text-brand-ink">
+    {item.name}{
+      item.additives && (
+        <sup class="ml-0.5 text-[9.5px] text-brand-amber">{item.additives}</sup>
+      )
+    }
+  </span>
+  <span
+    class="min-w-[16px] flex-1 -translate-y-[4px] border-b border-dotted border-[#cdbfa6]"
+  ></span>
+  <span
+    class="whitespace-nowrap font-heading text-[16.5px] text-brand-terracotta-dark"
+    >{item.price}</span
+  >
+</div>

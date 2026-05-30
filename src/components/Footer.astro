@@ -1,63 +1,90 @@
 ---
+import Meander from "./Meander.astro";
 import { siteConfig } from "../config/site";
 
+const { name, description, address, phone, hoursShort, footerLinks, legalLinks, owner } =
+  siteConfig;
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-neutral-200 bg-neutral-50">
-  <!-- Example footer implementation using config data. Adjust structure and styling as needed, but ensure all content is driven by `siteConfig` and not hardcoded. -->
-  <div class="mx-auto max-w-6xl px-6 py-12">
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-      {/* Brand block */}
-      <div class="sm:col-span-2 lg:col-span-2">
-        <p class="text-lg font-semibold tracking-tight">{siteConfig.name}</p>
-        <p class="mt-2 max-w-sm text-sm text-neutral-500">
-          {siteConfig.description}
-        </p>
-        {siteConfig.business && (
-          <div class="mt-4 space-y-1 text-sm text-neutral-500">
-            <p>{siteConfig.business.streetAddress}</p>
-            <p>{siteConfig.business.postalCode} {siteConfig.business.city}</p>
-            {siteConfig.business.phone && (
-              <p>
-                <a href={`tel:${siteConfig.business.phone}`} class="hover:text-neutral-900 transition-colors">
-                  {siteConfig.business.phone}
-                </a>
-              </p>
-            )}
-            {siteConfig.business.email && (
-              <p>
-                <a href={`mailto:${siteConfig.business.email}`} class="hover:text-neutral-900 transition-colors">
-                  {siteConfig.business.email}
-                </a>
-              </p>
-            )}
-          </div>
-        )}
+<footer class="bg-brand-walnut text-[#d9c8b2]">
+  <div class="mx-auto w-[min(1180px,92vw)] px-0 pb-9 pt-[70px]">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <b class="block font-heading text-[26px] tracking-[0.12em] text-[#f6ead7]"
+          >{name.toUpperCase()}</b
+        >
+        <Meander amber class="my-4" />
+        <p class="max-w-[30ch] text-[15.5px] text-[#c3b099]">{description}</p>
       </div>
 
-      {/* Link columns from config */}
-      {siteConfig.footer.columns.map((col) => (
-        <div>
-          <p class="text-sm font-semibold">{col.heading}</p>
-          <ul class="mt-3 space-y-2">
-            {col.links.map(({ label, href }) => (
-              <li>
-                <a
-                  href={href}
-                  class="text-sm text-neutral-500 transition-colors hover:text-neutral-900"
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <div>
+        <h4
+          class="mb-4 font-body text-[13px] font-semibold uppercase tracking-[0.22em] text-brand-amber-light"
+        >
+          Adresse
+        </h4>
+        <address class="not-italic text-[15.5px] text-[#d2c0a9]">
+          {address.street}<br />{address.city}
+        </address>
+        <a
+          href={phone.href}
+          class="mt-2 block text-[15.5px] text-[#d2c0a9] no-underline transition-colors hover:text-[#f6ead7]"
+          >{phone.display}</a
+        >
+      </div>
+
+      <div>
+        <h4
+          class="mb-4 font-body text-[13px] font-semibold uppercase tracking-[0.22em] text-brand-amber-light"
+        >
+          Öffnungszeiten
+        </h4>
+        {
+          hoursShort.map((row) => (
+            <div class="flex justify-between gap-3 text-[14.5px]">
+              <span>{row.days}</span>
+              <span class="text-[#efe0cb]">{row.time}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <div>
+        <h4
+          class="mb-4 font-body text-[13px] font-semibold uppercase tracking-[0.22em] text-brand-amber-light"
+        >
+          Entdecken
+        </h4>
+        {
+          footerLinks.map(({ label, href }) => (
+            <a
+              href={href}
+              class="mb-[9px] block text-[15.5px] text-[#d2c0a9] no-underline transition-colors hover:text-[#f6ead7]"
+            >
+              {label}
+            </a>
+          ))
+        }
+      </div>
     </div>
 
-    <div class="mt-10 border-t border-neutral-200 pt-6 text-center text-xs text-neutral-400">
-      &copy; {year} {siteConfig.name}. Alle Rechte vorbehalten.
+    <div
+      class="mt-13 flex flex-wrap justify-between gap-4 border-t border-brand-amber-light/20 pt-[22px] text-[13px] tracking-[0.02em] text-[#9c8a73]"
+    >
+      <span>© {year} {name} · Inhaberin {owner}</span>
+      <div class="flex flex-wrap gap-x-4 gap-y-1">
+        {
+          legalLinks.map(({ label, href }) => (
+            <a
+              href={href}
+              class="no-underline transition-colors hover:text-[#f6ead7]"
+            >
+              {label}
+            </a>
+          ))
+        }
+      </div>
     </div>
   </div>
 </footer>

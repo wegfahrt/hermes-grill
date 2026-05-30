@@ -48,8 +48,10 @@ if (siteConfig.business) {
       addressCountry: b.country,
     },
     telephone: b.phone,
-    email: b.email,
+    servesCuisine: b.servesCuisine,
+    priceRange: b.priceRange,
     openingHours: b.openingHours,
+    image: ogImageURL,
     url: siteConfig.url,
   });
 }
@@ -87,5 +89,5 @@ const allSchemas = [...defaultSchema, ...schema];
 
 {/* JSON-LD */}
 {allSchemas.map((s) => (
-  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
 ))}

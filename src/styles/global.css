@@ -1,27 +1,134 @@
 @import "tailwindcss";
 
 /*
- * Tailwind v4 CSS-first configuration.
- * Customise colours, fonts, and spacing per client here.
- * Docs: https://tailwindcss.com/docs/theme
+ * Tailwind v4 CSS-first configuration for Hermes Grill.
+ * Brand colours, fonts and design tokens live here; components use the
+ * generated utilities (bg-brand-*, text-brand-*, font-heading, …).
  */
 @theme {
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Fonts — self-hosted via Astro Fonts API (see astro.config.mjs). */
+  --font-heading: var(--ff-marcellus);
+  --font-body: var(--ff-spectral);
+  --font-script: var(--ff-pinyon);
 
-  /* Extend with client brand colours using --color-* */
-  /* Example:
-  --color-brand-500: #2563eb;
-  --color-brand-600: #1d4ed8;
-  */
+  /* Brand palette (rustic Greek taverna). */
+  --color-brand-cream: #f6efe2;
+  --color-brand-cream-deep: #efe4d1;
+  --color-brand-paper: #faf5ea;
+  --color-brand-ink: #2c241d;
+  --color-brand-ink-soft: #5a4d40;
+  --color-brand-walnut: #2f2118;
+  --color-brand-walnut-2: #3d2a1d;
+  --color-brand-terracotta: #a8432a;
+  --color-brand-terracotta-dark: #87331d;
+  --color-brand-amber: #c1843a;
+  --color-brand-amber-light: #d9a85a;
+  --color-brand-olive: #5d6838;
+  --color-brand-stone: #c6b596;
+  --color-brand-line: rgba(44, 36, 29, 0.16);
+
+  --shadow-warm: 0 18px 44px -22px rgba(47, 33, 24, 0.55);
 }
 
-/* Smooth scroll for anchor links */
-html {
-  scroll-behavior: smooth;
+/* ============ Base ============ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--color-brand-ink);
+    background: var(--color-brand-cream);
+    font-size: 18px;
+    line-height: 1.65;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    line-height: 1.12;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-brand-terracotta);
+    outline-offset: 2px;
+  }
 }
 
-/* Remove default focus ring, add accessible custom one */
-*:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+/* ============ Components / reusable motifs ============ */
+@layer components {
+  /* Greek-key "meander" divider. */
+  .meander {
+    height: 16px;
+    width: 132px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='16' viewBox='0 0 32 16'%3E%3Cg fill='none' stroke='%23a8432a' stroke-width='1.6' stroke-linecap='square'%3E%3Cpath d='M0 14 H32 M3 14 V4 H26 V11 H11 V8'/%3E%3C/g%3E%3C/svg%3E")
+      repeat-x left center;
+  }
+  .meander--center {
+    margin-inline: auto;
+  }
+  .meander--amber {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='16' viewBox='0 0 32 16'%3E%3Cg fill='none' stroke='%23d9a85a' stroke-width='1.6' stroke-linecap='square'%3E%3Cpath d='M0 14 H32 M3 14 V4 H26 V11 H11 V8'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Small Greek-key glyph before a menu category title. */
+  .menu-key {
+    flex: 0 0 18px;
+    height: 9px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='9' viewBox='0 0 18 9'%3E%3Cg fill='none' stroke='%23a8432a' stroke-width='1.4'%3E%3Cpath d='M1 8 V2 H14 V6 H6'/%3E%3C/g%3E%3C/svg%3E")
+      no-repeat left center;
+  }
+
+  /* Header nav link with animated underline. */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5px;
+    background: var(--color-brand-amber-light);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s;
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ============ Scroll-reveal (progressive enhancement) ============ */
+/* Hidden state only applies when JS is available (html.js); without JS,
+   content is fully visible. Disabled for reduced-motion users. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .animate-bob {
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translate(-50%, 0);
+    }
+    50% {
+      transform: translate(-50%, 8px);
+    }
+  }
 }

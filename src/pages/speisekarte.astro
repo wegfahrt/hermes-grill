@@ -1,0 +1,108 @@
+---
+export const prerender = true;
+
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import MenuGroup from "../components/menu/MenuGroup.astro";
+import AdditivesLegend from "../components/menu/AdditivesLegend.astro";
+import { siteConfig } from "../config/site";
+import { groups } from "../data/menu";
+
+import vorspeisenteller from "../assets/images/vorspeisenteller.jpg";
+
+const { phone } = siteConfig;
+
+const description =
+  "Die Speisekarte vom Hermes Grill in Mannheim: Vorspeisen & Meze, frischer Fisch, Spezialitäten vom Holzkohlegrill, vegetarische Gerichte und Dessert. Preise in Euro.";
+---
+
+<BaseLayout title="Speisekarte" description={description}>
+  {/* ===== MENU HERO ===== */}
+  <section
+    class="relative overflow-hidden px-5 py-[84px] text-center text-[#fbf3e6] sm:pt-[92px]"
+  >
+    <Image
+      src={vorspeisenteller}
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      class="absolute inset-0 h-full w-full scale-105 object-cover object-[center_60%]"
+    />
+    <div
+      class="absolute inset-0 bg-[linear-gradient(rgba(40,26,16,0.82),rgba(40,26,16,0.88))]"
+    >
+    </div>
+    <div class="relative z-10">
+      <span
+        class="font-body font-medium uppercase tracking-[0.34em] text-[12.5px] text-brand-amber-light"
+        >Κατάλογος</span
+      >
+      <h1
+        class="mt-[18px] font-heading text-[clamp(40px,7vw,76px)] tracking-[0.04em] text-[#fbf3e6]"
+      >
+        Speisekarte
+      </h1>
+      <p class="mx-auto mt-[18px] max-w-[600px] text-[17px] italic text-[#ecdcc6]">
+        Zu allen Suppen, Vorspeisen und Salaten reichen wir Ihnen geröstetes
+        Weißbrot. Preise in Euro (€).
+      </p>
+    </div>
+  </section>
+
+  {/* ===== STICKY JUMP NAV (desktop) ===== */}
+  <nav
+    aria-label="Speisekarte-Abschnitte"
+    class="sticky top-19 z-30 hidden border-b border-brand-line bg-brand-cream/95 backdrop-blur-sm lg:block"
+  >
+    <div
+      class="mx-auto flex w-[min(1180px,92vw)] flex-wrap justify-center gap-2 py-3.5"
+    >
+      {
+        groups.map((group) => (
+          <a
+            href={`#${group.id}`}
+            class="rounded-full border border-brand-line px-[15px] py-1.5 text-[13.5px] tracking-[0.04em] text-brand-ink-soft no-underline transition-colors hover:border-brand-terracotta hover:bg-brand-terracotta hover:text-[#fbf3e6]"
+          >
+            {group.title}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+
+  {/* ===== MENU BODY ===== */}
+  <div class="bg-brand-cream pb-8 pt-[70px]">
+    <div class="mx-auto w-[min(1180px,92vw)]">
+      {groups.map((group) => <MenuGroup group={group} />)}
+    </div>
+  </div>
+
+  {/* ===== LEGEND ===== */}
+  <section class="bg-brand-cream-deep pb-16 pt-[54px]">
+    <div class="mx-auto w-[min(1180px,92vw)]">
+      <h2 class="text-center font-heading text-[24px] text-brand-ink">
+        Deklarationspflichtige Zusatzstoffe
+      </h2>
+      <p
+        class="mb-7 mt-2 text-center text-[15px] italic text-brand-ink-soft"
+      >
+        Die mit Ziffern gekennzeichneten Speisen enthalten folgende Zusatzstoffe
+      </p>
+
+      <AdditivesLegend />
+
+      <p
+        class="mx-auto mt-[30px] max-w-[640px] text-center text-[14.5px] text-brand-ink-soft"
+      >
+        Allergeninformationen erhalten Sie gerne auf Anfrage – eine
+        gekennzeichnete Karte stellen wir Ihnen zur Verfügung.
+      </p>
+      <div class="mt-[34px] text-center">
+        <Button href={phone.href} variant="solid"
+          >Tisch reservieren · {phone.display}</Button
+        >
+      </div>
+    </div>
+  </section>
+</BaseLayout>

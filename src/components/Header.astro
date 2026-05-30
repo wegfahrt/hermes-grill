@@ -1,10 +1,107 @@
 ---
 import { siteConfig } from "../config/site";
 
-const currentPath = Astro.url.pathname;
+const { nav, phone, name, tagline } = siteConfig;
+
+// Normalise current path (strip trailing slash) for active-link matching.
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isActive = (href: string) =>
+  !href.includes("#") && (href.replace(/\/+$/, "") || "/") === currentPath;
 ---
 
-<header>
-  <!-- Implement header here -->
-  
+<header
+  class="sticky top-0 z-40 border-b border-brand-amber-light/30 bg-brand-walnut/95 text-[#f3e7d6] backdrop-blur-sm"
+>
+  <div class="mx-auto flex h-19 w-[min(1180px,92vw)] items-center gap-6">
+    <a href="/" class="mr-auto flex flex-col leading-none no-underline">
+      <span class="font-heading text-[25px] tracking-[0.12em] text-[#f6ead7]"
+        >{name.toUpperCase()}</span
+      >
+      <span
+        class="mt-[5px] text-[10.5px] uppercase tracking-[0.3em] text-brand-amber-light"
+        >{tagline}</span
+      >
+    </a>
+
+    <nav class="hidden items-center gap-[30px] md:flex" aria-label="Hauptmenü">
+      {
+        nav.map(({ label, href }) => (
+          <a
+            href={href}
+            class:list={[
+              "nav-link py-1.5 text-[15px] tracking-[0.03em] no-underline transition-colors",
+              isActive(href) ? "text-[#f6ead7]" : "text-[#e8d8c2]",
+            ]}
+            aria-current={isActive(href) ? "page" : undefined}
+          >
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href={phone.href}
+      class="hidden items-center gap-2 whitespace-nowrap rounded-sm border-[1.5px] border-brand-amber-light/55 px-[17px] py-[9px] text-sm tracking-[0.03em] text-brand-amber-light no-underline transition-colors hover:bg-brand-amber-light hover:text-brand-walnut md:inline-flex"
+    >
+      ☎ {phone.display}
+    </a>
+
+    <button
+      id="navToggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobileNav"
+      class="inline-flex cursor-pointer rounded-sm border-[1.5px] border-brand-amber-light/50 px-3.5 py-2.5 font-body text-sm text-brand-amber-light md:hidden"
+    >
+      Menü
+    </button>
+  </div>
+
+  <nav
+    id="mobileNav"
+    aria-label="Hauptmenü mobil"
+    class="hidden flex-col border-t border-brand-amber-light/30 bg-brand-walnut md:hidden"
+  >
+    {
+      nav.map(({ label, href }) => (
+        <a
+          href={href}
+          class:list={[
+            "px-[6vw] py-3.5 no-underline transition-colors hover:bg-brand-walnut-2",
+            isActive(href) ? "text-[#f6ead7]" : "text-[#e8d8c2]",
+          ]}
+          aria-current={isActive(href) ? "page" : undefined}
+        >
+          {label}
+        </a>
+      ))
+    }
+    <a
+      href={phone.href}
+      class="px-[6vw] py-3.5 text-brand-amber-light no-underline"
+    >
+      ☎ {phone.display}
+    </a>
+  </nav>
 </header>
+
+<script>
+  const toggle = document.getElementById("navToggle");
+  const menu = document.getElementById("mobileNav");
+
+  toggle?.addEventListener("click", () => {
+    const open = menu?.classList.toggle("hidden") === false;
+    menu?.classList.toggle("flex", open);
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+
+  // Close the panel after following an in-page link.
+  menu?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).tagName === "A") {
+      menu.classList.add("hidden");
+      menu.classList.remove("flex");
+      toggle?.setAttribute("aria-expanded", "false");
+    }
+  });
+</script>

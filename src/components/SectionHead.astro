@@ -1,0 +1,41 @@
+---
+import Meander from "./Meander.astro";
+
+/**
+ * Eyebrow + heading + meander divider. Heading content goes in the default slot
+ * so callers can include line breaks.
+ */
+interface Props {
+  eyebrow?: string;
+  center?: boolean;
+  onDark?: boolean;
+  class?: string;
+}
+
+const { eyebrow, center = false, onDark = false, class: extra = "" } = Astro.props;
+---
+
+<div class:list={[center && "text-center max-w-[620px] mx-auto", extra]}>
+  {
+    eyebrow && (
+      <span
+        class:list={[
+          "font-body font-medium uppercase text-[12.5px] tracking-[0.34em]",
+          onDark ? "text-brand-amber-light" : "text-brand-terracotta",
+        ]}
+      >
+        {eyebrow}
+      </span>
+    )
+  }
+  <h2
+    class:list={[
+      "font-heading mt-3.5 text-[clamp(30px,4.4vw,46px)]",
+      onDark ? "text-[#f6ead7]" : "text-brand-ink",
+      center && "text-center",
+    ]}
+  >
+    <slot />
+  </h2>
+  <Meander center={center} amber={onDark} class="mt-4" />
+</div>

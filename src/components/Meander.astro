@@ -1,0 +1,21 @@
+---
+/** Decorative Greek-key (meander) divider. */
+interface Props {
+  center?: boolean;
+  amber?: boolean;
+  class?: string;
+}
+
+const { center = false, amber = false, class: extra = "" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "meander",
+    center && "meander--center",
+    amber && "meander--amber",
+    extra,
+  ]}
+  aria-hidden="true"
+>
+</div>

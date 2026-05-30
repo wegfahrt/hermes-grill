@@ -1,0 +1,30 @@
+---
+/**
+ * Link styled as a button. Matches the four taverna button styles from the design.
+ */
+interface Props {
+  href: string;
+  variant?: "solid" | "ghost" | "outline" | "outline-amber";
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { href, variant = "solid", class: extra = "", ...rest } = Astro.props;
+
+const base =
+  "inline-flex items-center gap-2 font-body font-medium text-[15px] tracking-[0.04em] no-underline cursor-pointer px-7 py-3.5 rounded-sm border-[1.5px] border-transparent transition hover:-translate-y-0.5 motion-reduce:hover:translate-y-0";
+
+const variants: Record<NonNullable<Props["variant"]>, string> = {
+  solid: "bg-brand-terracotta text-[#fdf6ec] hover:bg-brand-terracotta-dark",
+  ghost:
+    "border-[#fdf6ec]/55 text-[#fdf6ec] hover:bg-[#fdf6ec]/10 hover:border-[#fdf6ec]",
+  outline:
+    "border-brand-terracotta text-brand-terracotta hover:bg-brand-terracotta hover:text-[#fdf6ec]",
+  "outline-amber":
+    "border-brand-amber-light text-brand-amber-light hover:bg-brand-amber-light hover:text-brand-walnut",
+};
+---
+
+<a href={href} class:list={[base, variants[variant], extra]} {...rest}>
+  <slot />
+</a>
